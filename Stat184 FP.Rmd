@@ -8,10 +8,3 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-
-rfrfr
-this is bullshit
-testing
-
-whatever
