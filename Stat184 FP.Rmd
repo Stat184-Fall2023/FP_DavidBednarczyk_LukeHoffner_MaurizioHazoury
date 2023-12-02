@@ -1,5 +1,5 @@
 ---
-title: "Stat184 FP"
+ti tle: "Stat184 FP"
 author: "David Bednarczyk"
 date: "2023-12-02"
 output: pdf_document
