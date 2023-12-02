@@ -1,0 +1,10 @@
+---
+title: "Stat184 FP"
+author: "David Bednarczyk"
+date: "2023-12-02"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
