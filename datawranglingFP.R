@@ -108,7 +108,7 @@ nba23Data <- inner_join(nbaTopScorers23, top25ScoringTotals, by = "Player")
 #Fixing column names
 colnames(nba23Data)[6] <- "PPG"
 colnames(nba23Data)[7] <- "FGM"
-colnames(nba23Data)[8] <- "FGA/"
+colnames(nba23Data)[8] <- "FGA"
 colnames(nba23Data)[9] <- "FG%"
 colnames(nba23Data)[11] <- "3PA"
 colnames(nba23Data)[12] <- "3P%"
@@ -124,5 +124,10 @@ colnames(nba23Data)[23] <- "2P%"
 colnames(nba23Data)[25] <- "Total FT"
 colnames(nba23Data)[26] <- "Total FTA"
 colnames(nba23Data)[27] <- "PTS"
+
+#Turning Columns 4-27 into numeric values and adding True Shooting %
+nba23Data[, 4:27] <- lapply(nba23Data[, 4:27], as.numeric)
+nba23Data$`TS%` <- (nba23Data$PTS / (2 * (nba23Data$`Total FGA` + 0.44 * nba23Data$`Total FTA`))) * 100
+nba23Data$`TS%` <- round(nba23Data$TS, 2)
 
 View(nba23Data)
