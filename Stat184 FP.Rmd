@@ -7,4 +7,21 @@ output: pdf_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tidyverse)
+```
+```{r PPG vs TS%}
+nba23Data %>% 
+  ggplot(aes(x = `TS%`,
+             y= PPG,
+             color = POS)) +
+  geom_point()+
+  labs(x = "True Shooting %",
+       y = "Points Per Game",
+       color = "Position",
+       title = "NBA Scoring Production vs Efficiency")+
+  theme_bw()+
+  geom_text(data = subset_nba23Data, aes(label = Player), vjust = 1.25, size = 2.75, angle = 10)+
+   geom_text(data = Jokic, aes(label = Player), vjust = -1, hjust = .8, size = 2.75, angle = 10)
+
 ```

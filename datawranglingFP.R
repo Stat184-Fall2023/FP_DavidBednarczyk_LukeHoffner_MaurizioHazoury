@@ -130,4 +130,8 @@ nba23Data[, 4:27] <- lapply(nba23Data[, 4:27], as.numeric)
 nba23Data$`TS%` <- (nba23Data$PTS / (2 * (nba23Data$`Total FGA` + 0.44 * nba23Data$`Total FTA`))) * 100
 nba23Data$`TS%` <- round(nba23Data$TS, 2)
 
+#Subsetting the data for naming purposes on the scatterplot
+subset_nba23Data <- nba23Data[nba23Data$PPG * nba23Data$`TS%` > 1900, ]
+Jokic <- nba23Data[nba23Data$`TS%` > 70, ]
+
 View(nba23Data)
