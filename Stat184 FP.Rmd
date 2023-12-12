@@ -25,3 +25,15 @@ nba23Data %>%
    geom_text(data = Jokic, aes(label = Player), vjust = -1, hjust = .8, size = 2.75, angle = 10)
 
 ```
+
+```{r Points vs Minutes Played}
+nba23Data %>% ggplot(aes(x = PTS,
+                         y = MP,
+                         color = POS))+
+  geom_point()+
+  labs(x = "Total Points",
+       y = "Total Minutes Played",
+       color = "Position",
+      title = "Points vs Minutes Played for the NBA's top 25 PPG Scorers")+
+  theme_bw()
+```
