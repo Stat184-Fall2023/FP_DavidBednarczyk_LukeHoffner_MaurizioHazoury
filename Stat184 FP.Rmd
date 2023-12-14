@@ -118,7 +118,7 @@ colnames(top25ScoringTotals)[5] <- "Team"
 top25ScoringTotals[8, 5] <- "BKN/PHX"
 top25ScoringTotals[12, 5] <- "BKN/DAL"
 
-#Removing unnecessary columns
+#Removing unecessary columns
 top25ScoringTotals <- top25ScoringTotals[, -c(1, 3:7, 11, 14, 21:29)]
 
 #Merging the data sets
