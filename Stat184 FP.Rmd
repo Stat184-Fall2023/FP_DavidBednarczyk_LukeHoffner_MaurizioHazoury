@@ -210,6 +210,8 @@ secondHalfDataTable <- secondHalfData %>%
     bootstrap_options = c("striped", "condensed"),
     font_size = 6
   )
+firstHalfDataTable
+secondHalfDataTable
 <<<<<<< HEAD
 ```
 
