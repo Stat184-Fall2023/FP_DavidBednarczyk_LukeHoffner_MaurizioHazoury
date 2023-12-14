@@ -17,7 +17,6 @@ Who is the best scorer in the current NBA? Is it the person who scores the most 
 
 For this project, we used data tables from two websites: ESPN and BasketballReference. We were able to successfully scrape both websites to obtain the data tables we needed, however the data wasn't tidy. There were several things wrong with the data, like player and team being written in once column, accents on letters in one table, but not in the other, unclear column names, and more. After tidying each data table, we combined them into our final table that we will be using to graph the players. Below is the final version of our data table.
 
-
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(rvest)
@@ -140,16 +139,16 @@ colnames(nba23Data)[17] <- "TOT FGM"
 colnames(nba23Data)[18] <- "TOT FGA"
 colnames(nba23Data)[19] <- "TOT 3PM"
 colnames(nba23Data)[20] <- "TOT 3PA"
-colnames(nba23Data)[21] <- "TOT 2PM"
-colnames(nba23Data)[22] <- "TOT 2PA"
+colnames(nba23Data)[21] <- "2PM"
+colnames(nba23Data)[22] <- "2PA"
 colnames(nba23Data)[23] <- "2P%"
 colnames(nba23Data)[25] <- "TOT FT"
 colnames(nba23Data)[26] <- "TOT FTA"
-colnames(nba23Data)[27] <- "TOT PTS"
+colnames(nba23Data)[27] <- "PTS"
 
 #Turning Columns 4-27 into numeric values and adding True Shooting %
 nba23Data[, 4:27] <- lapply(nba23Data[, 4:27], as.numeric)
-nba23Data$`TS%` <- (nba23Data$`TOT PTS` / (2 * (nba23Data$`TOT FGA` + 0.44 * nba23Data$`TOT FTA`))) * 100
+nba23Data$`TS%` <- (nba23Data$`PTS` / (2 * (nba23Data$`FGA` + 0.44 * nba23Data$`FTA`))) * 100
 nba23Data$`TS%` <- round(nba23Data$`TS%`, 2)
 
 #Subsetting the data for naming purposes on the scatterplot
@@ -183,11 +182,18 @@ secondHalfDataTable <- secondHalfData %>%
 firstHalfDataTable
 secondHalfDataTable
 ```
+Data tables taken from:
+
+Basketball Reference - https://www.basketball-reference.com/leagues/NBA_2023_totals.html#totals_stats::pts 
+
+ESPN - https://www.espn.com/nba/stats/player/_/season/2023/seasontype/2
+
+
 
 ## Graphing the Data
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-nba23Data %>% ggplot(aes(x = `TOT PTS`,
+nba23Data %>% ggplot(aes(x = PTS,
                          y = MP,
                          color = POS))+
   geom_point()+
@@ -221,7 +227,7 @@ This graph compares player production and efficiency. The "True Shooting %" metr
 
 
 ## Does Position Matter?
-``` {r}
+``` {r, echo = FALSE, message = FALSE, warning = FALSE}
 nbaPositionData <- nba23Data %>%
   group_by(POS) %>%
   summarize(
