@@ -1,0 +1,220 @@
+---
+title: "Final Course Project Group Evaluations"
+author: "Maurizio Hazoury"
+date: "12-14-2023"
+output: pdf_document
+---
+<!--Directions
+Use this RMD template to complete peer and self evaluations for your final project. Be sure to answer all prompts for each team member and yourself. You'll upload the knitted PDF (not the RMD) to the appropriate Canvas Portal.
+--->
+
+
+# Team Member 1
+
+## Who are you evaluating?
+
+Luke Hoffner
+
+
+## Evaluation Areas
+
+#### 1. Intellectual Contributions.
+
+*Understanding the project, doing the research, evaluating and interpreting data, creative efforts and problem solving insight, providing intellectual leadership for group.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+Took charge doing the scraping and formatting of the data, took part in the research gathering and finding the data, problem solving insight shown fixing code for the tables.
+
+
+
+#### 2. Team Support.
+
+*Enthusiasm, commitment to project, cooperation, respect for other persons’ ideas, willingness to compromise as appropriate, receptiveness to constructive feedback.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+very cooperative and respectful, was willing to compromise and consider that other ideas might be better for the progression and efficiency of the project. Very receptive to constructive feedback.
+
+
+
+#### 3. Communication Contributions. 
+
+*Effectiveness of communication within team, quality of written work, contributions toward creation of presentation and other written work.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+Very effective communication within the team, high quality of work, equal contribution towards presentation and other written work, great job.
+
+
+
+#### 4. Time Contributions.
+
+*Keeping team on task, meeting deadlines, following through on plans, attendance at team meetings, does equal share of work.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+Always attending team meetings. I think he did more that equal share of work, helped greatly with meeting deadlines and following through on plans.
+
+
+
+
+#### 5. Overall / Other Contributions
+
+*Score any additional contributions, general remarks, or overall impression of this person as a member of the group.*
+
+
+Score (out of 10): 10
+
+Justification/Examples:
+Luke had some issues with the connection between gitHub and RStudio, So he sent stuff to me in order for me to commit it on his behalf. Very effective team member, very respectful, and very hardworking overall. Super easy to communicate ideas or issues/differing opinions with.
+
+
+
+
+### Total Score (out of 50): 50
+
+
+# Team Member 2
+
+## Who are you evaluating?
+
+David Bednarczyk
+
+
+## Evaluation Areas
+
+#### 1. Intellectual Contributions.
+
+*Understanding the project, doing the research, evaluating and interpreting data, creative efforts and problem solving insight, providing intellectual leadership for group.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+He understood the project and raw data the most (I think he originally suggested the research questions). Took charge in interpreting and analyzing the data, along with the creation of the graphs.
+
+
+
+#### 2. Team Support.
+
+*Enthusiasm, commitment to project, cooperation, respect for other persons’ ideas, willingness to compromise as appropriate, receptiveness to constructive feedback.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+Very committed to the project and cooperative, also receptive to constructive feedback and willing to compromise.
+
+
+
+#### 3. Communication Contributions. 
+
+*Effectiveness of communication within team, quality of written work, contributions toward creation of presentation and other written work.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+Highest quality and equal contribution of written work, equal contribution of presentation. Very willing to communicate ideas or problems clearly.
+
+
+
+#### 4. Time Contributions.
+
+*Keeping team on task, meeting deadlines, following through on plans, attendance at team meetings, does equal share of work.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+Did equal share of work, perfect attendance at team meetings. Super helpful with keeping team on task, meeting deadlines, and following through on plans.
+
+
+
+
+#### 5. Overall / Other Contributions
+
+*Score any additional contributions, general remarks, or overall impression of this person as a member of the group.*
+
+
+Score (out of 10): 10
+
+Justification/Examples:
+Overall super positive impression of this person as an effective group member.
+
+
+
+
+### Total Score (out of 50): 50
+
+
+# Team Member 3
+
+## Who are you evaluating?
+
+self-evaluation
+
+
+## Evaluation Areas
+
+#### 1. Intellectual Contributions.
+
+*Understanding the project, doing the research, evaluating and interpreting data, creative efforts and problem solving insight, providing intellectual leadership for group.* 
+
+Score (out of 10): 8
+
+Justification/Examples:
+Understood project, helpful with research and with the evaluation and interpretation of data. Showed problem solving insight by creating and fixing connections between rstudio and github. Had slight issues knitting and running code on the RMD, and so did less than equal part of that aspect.
+
+
+
+#### 2. Team Support.
+
+*Enthusiasm, commitment to project, cooperation, respect for other persons’ ideas, willingness to compromise as appropriate, receptiveness to constructive feedback.* 
+
+Score (out of 10): 10
+
+Justification/Examples:
+Was committed to project, very cooperative and respectful. willing to compromise and asking actively for constructive feedback.
+
+
+
+#### 3. Communication Contributions. 
+
+*Effectiveness of communication within team, quality of written work, contributions toward creation of presentation and other written work.* 
+
+Score (out of 10): 9
+
+Justification/Examples:
+Clear effective communication most of the time. Equal contribution toward creation of presentation, but a little less towards the other written work because of issues knitting and running code on the RMD.
+
+
+
+#### 4. Time Contributions.
+
+*Keeping team on task, meeting deadlines, following through on plans, attendance at team meetings, does equal share of work.* 
+
+Score (out of 10): 9
+
+Justification/Examples:
+Kept team on task mostly, helpful motivating the team to meet deadlines and keeping team informed of project requirements. Good attendance at team meetings, did a little less than equal share of work because of issues with knitting and running code on the RMD.
+
+
+
+
+#### 5. Overall / Other Contributions
+
+*Score any additional contributions, general remarks, or overall impression of this person as a member of the group.*
+
+
+Score (out of 10): 10
+
+Justification/Examples:
+Overall helpful member of the team.
+
+
+
+
+### Total Score (out of 50): 46
+
