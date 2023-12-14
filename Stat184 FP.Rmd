@@ -43,9 +43,7 @@ nba23Data %>% ggplot(aes(x = PTS,
   theme_bw()
 ```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-library(dplyr)
-library(tidyverse)
+```library(tidyverse)
 library(rvest)
 library(writexl)
 library(data.table)
@@ -179,11 +177,11 @@ nba23Data$`TS%` <- (nba23Data$PTS / (2 * (nba23Data$`Total FGA` + 0.44 * nba23Da
 nba23Data$`TS%` <- round(nba23Data$`TS%`, 2)
 
 #Subsetting the data for naming purposes on the scatterplot
-subset_nba23Data <- nba23Data[nba23Data$PPG * nba23Data$`TS%` > 1900, ]
+subsetNba23Data <- nba23Data[nba23Data$PPG * nba23Data$`TS%` > 1900, ]
 Jokic <- nba23Data[nba23Data$`TS%` > 70, ]
 
 firstHalfData <- nba23Data[, 1:15]
-secondHalfData <- nba23Data[, c(1:3, 16:27)]
+secondHalfData <- nba23Data[, c(1:3, 16:28)]
 firstHalfData <- firstHalfData[, -c(4, 13:15)]
 
 firstHalfDataTable <- firstHalfData %>%
@@ -194,7 +192,7 @@ firstHalfDataTable <- firstHalfData %>%
   ) %>%
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "condensed"),
-    font_size = 8
+    font_size = 6
   )
 
 secondHalfDataTable <- secondHalfData %>%
@@ -204,9 +202,8 @@ secondHalfDataTable <- secondHalfData %>%
   ) %>%
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "condensed"),
-    font_size = 8
+    font_size = 6
   )
-
 firstHalfDataTable
 secondHalfDataTable
 ```
