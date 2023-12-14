@@ -1,0 +1,257 @@
+---
+title: "Who is the Best Scorer in the NBA?"
+author: "David Bednarczyk, Luke Hoffner, Maurizio Hazoury"
+date: "2023-12-02"
+output: pdf_document
+---
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(dplyr)
+library(tidyverse)
+```
+## Introduction
+
+Who is the best scorer in the current NBA? Is it the person who scores the most points, or is it the most efficient scorer, or a combination of both? As a group, we wanted to determine what player is the best scorer in the NBA, so the easiest way to do this, was through analyzing data. Our group used data from 2022-23 NBA season, as the current season in incomplete at the time of creating this project. Our plan was to find data that included both scoring averages, and scoring totals of the season. We plan on graphing different aspects of the data using stats like points per game, true shooting percentage, scoring totals and more. After graphing the data we plan on being able to make a good estimation on the best scorer in the league based off our criteria. We also wanted observe the position of the top scorers and if that played a part in scoring. Our theory was that position and had scoring had no relationship.
+
+## Our Data
+
+For this project, we used data tables from two websites: ESPN and BasketballReference. We were able to successfully scrape both websites to obtain the data tables we needed, however the data wasn't tidy. There were several things wrong with the data, like player and team being written in once column, accents on letters in one table, but not in the other, unclear column names, and more. After tidying each data table, we combined them into our final table that we will be using to graph the players. Below is the final version of our data table.
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(rvest)
+library(writexl)
+library(data.table)
+library(stringi)
+library(kableExtra)
+
+#Creating Totals table
+
+#Scraping 22-23 season totals from basketball reference
+nbaTopScorersTotals <- read_html(
+  x = "https://www.basketball-reference.com/leagues/NBA_2023_totals.html#totals_stats::pts"
+) %>%
+  html_elements(css = "table") %>%
+  html_table()
+nbaTopScorersTotals23 <- nbaTopScorersTotals[[1]]
+
+#Eliminating duplicates from the table
+tot_rows <- nbaTopScorersTotals23$Tm == "TOT"
+duplicates <- duplicated(nbaTopScorersTotals23$Player)
+removed_rows <- duplicates & !tot_rows
+nbaTopScorersTotals23 <- nbaTopScorersTotals23[!removed_rows, ]
+
+#removing any accents from the players name
+remove_accents <- function(x) {
+  stri_trans_general(x, "Latin-ASCII")
+}
+nbaTopScorersTotals23$Player <- remove_accents(nbaTopScorersTotals23$Player)
+remove_accents <- function(x) {
+  stri_trans_general(x, "Latin-ASCII")
+}
+
+#Creating Averages table
+
+#Scraping top scorer's by ppg data table from ESPN
+nbaTopScorers <- read_html(
+  x = "https://www.espn.com/nba/stats/player/_/season/2023/seasontype/2"
+) %>%
+  html_elements(css = "table") %>%
+  html_table()
+nbaTopScorers23 <- bind_cols(nbaTopScorers[[1]], nbaTopScorers[[2]])
+
+#Removing unecessary columns and rows
+nbaTopScorers23 <- nbaTopScorers23[-c(26:50), -c(16:22)]
+
+#Removing team abbreviation from end of player name
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Joel EmbiidPHI"] <- "Joel Embiid"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Luka DoncicDAL"] <- "Luka Doncic"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Damian LillardPOR"] <- "Damian Lillard"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Shai Gilgeous-AlexanderOKC"] <- "Shai Gilgeous-Alexander"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Giannis AntetokounmpoMIL"] <- "Giannis Antetokounmpo"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Jayson TatumBOS"] <- "Jayson Tatum"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Stephen CurryGS"] <- "Stephen Curry"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Kevin DurantBKN/PHX"] <- "Kevin Durant"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "LeBron JamesLAL"] <- "LeBron James"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Donovan MitchellCLE"] <- "Donovan Mitchell"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Devin BookerPHX"] <- "Devin Booker"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Kyrie IrvingBKN/DAL"] <- "Kyrie Irving"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Jaylen BrownBOS"] <- "Jaylen Brown"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Trae YoungATL"] <- "Trae Young"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Ja MorantMEM"] <- "Ja Morant"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Zion WilliamsonNO"] <- "Zion Williamson"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Anthony DavisLAL"] <- "Anthony Davis"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Lauri MarkkanenUTAH"] <- "Lauri Markkanen"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Julius RandleNY"] <- "Julius Randle"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "De'Aaron FoxSAC"] <- "De'Aaron Fox"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Zach LaVineCHI"] <- "Zach LaVine"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Brandon IngramNO"] <- "Brandon Ingram"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Anthony EdwardsMIN"] <- "Anthony Edwards"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "DeMar DeRozanCHI"] <- "DeMar DeRozan"
+nbaTopScorers23$Name[nbaTopScorers23$Name == "Nikola JokicDEN"] <- "Nikola Jokic"
+
+#Changing first column name to Player
+colnames(nbaTopScorers23)[2] <- "Player"
+
+#Extracting name column of nbaTopScorers23 into a vector
+top25 <- nbaTopScorers23$Player
+
+#Creating a data frame of all players in the league
+nbaTop25 <- data.frame(Player = nbaTopScorersTotals23$Player)
+
+#Creating empty data frame
+top25ScoringTotals <- data.frame()
+
+#Creating a for loop to extract the players from the nbaTopScorers23 from the Totals table
+for (string in top25) {
+  #Taking the row from the totals table that has the same player as the nbaTopScorers23 table
+  top25Rows <- nbaTopScorersTotals23$Player == string
+  top25Scorers <- nbaTopScorersTotals23[top25Rows, ]
+  #Combines selected columns into a new table
+  if (nrow(top25Scorers) > 0) {
+    top25ScoringTotals <- rbind(top25ScoringTotals, top25Scorers)
+  }
+}
+
+#Changing column 5 to Team
+colnames(top25ScoringTotals)[5] <- "Team"
+
+#Changing a player's team names
+top25ScoringTotals[8, 5] <- "BKN/PHX"
+top25ScoringTotals[12, 5] <- "BKN/DAL"
+
+#Removing unecessary columns
+top25ScoringTotals <- top25ScoringTotals[, -c(1, 3:7, 11, 14, 21:29)]
+
+#Merging the data sets
+nba23Data <- inner_join(nbaTopScorers23, top25ScoringTotals, by = "Player")
+
+#Fixing column names
+colnames(nba23Data)[6] <- "PPG"
+colnames(nba23Data)[7] <- "FGM"
+colnames(nba23Data)[8] <- "FGA"
+colnames(nba23Data)[9] <- "FG%"
+colnames(nba23Data)[11] <- "3PA"
+colnames(nba23Data)[12] <- "3P%"
+colnames(nba23Data)[14] <- "FTA"
+colnames(nba23Data)[15] <- "FT%"
+colnames(nba23Data)[17] <- "TOT FGM"
+colnames(nba23Data)[18] <- "TOT FGA"
+colnames(nba23Data)[19] <- "TOT 3PM"
+colnames(nba23Data)[20] <- "TOT 3PA"
+colnames(nba23Data)[21] <- "TOT 2PM"
+colnames(nba23Data)[22] <- "TOT 2PA"
+colnames(nba23Data)[23] <- "2P%"
+colnames(nba23Data)[25] <- "TOT FT"
+colnames(nba23Data)[26] <- "TOT FTA"
+colnames(nba23Data)[27] <- "TOT PTS"
+
+#Turning Columns 4-27 into numeric values and adding True Shooting %
+nba23Data[, 4:27] <- lapply(nba23Data[, 4:27], as.numeric)
+nba23Data$`TS%` <- (nba23Data$`TOT PTS` / (2 * (nba23Data$`TOT FGA` + 0.44 * nba23Data$`TOT FTA`))) * 100
+nba23Data$`TS%` <- round(nba23Data$`TS%`, 2)
+
+#Subsetting the data for naming purposes on the scatterplot
+subsetNba23Data <- nba23Data[nba23Data$PPG * nba23Data$`TS%` > 1900, ]
+Jokic <- nba23Data[nba23Data$`TS%` > 70, ]
+
+firstHalfData <- nba23Data[, 1:17]
+secondHalfData <- nba23Data[, c(1:3, 18:28)]
+firstHalfData <- firstHalfData[, -c(4, 13:17)]
+
+firstHalfDataTable <- firstHalfData %>%
+  kable(
+    caption = "Top 25 NBA Players by Points per Game in the 2022-2023 Season",
+    booktabs = TRUE,
+    align = c("l", rep("c", 6))
+  ) %>%
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    font_size = 6
+  )
+
+secondHalfDataTable <- secondHalfData %>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c", 6))
+  ) %>%
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    font_size = 6
+  )
+firstHalfDataTable
+secondHalfDataTable
+```
+
+## Graphing the Data
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+nba23Data %>% ggplot(aes(x = `TOT PTS`,
+                         y = MP,
+                         color = POS))+
+  geom_point()+
+  labs(x = "Total Points",
+       y = "Total Minutes Played",
+       color = "Position",
+      title = "Points vs Minutes Played for the NBA's top 25 PPG Scorers")+
+  theme_bw()
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+nba23Data %>% 
+  ggplot(aes(x = `TS%`,
+             y= PPG,
+             color = POS)) +
+  geom_point()+
+  labs(x = "True Shooting %",
+       y = "Points Per Game",
+       color = "Position",
+       title = "NBA Scoring Production vs Efficiency")+
+  theme_bw()+
+  geom_text(data = subsetNba23Data, aes(label = Player), vjust = 1.25, size = 2.75, angle = 10)+
+   geom_text(data = Jokic, aes(label = Player), vjust = -1, hjust = .8, size = 2.75, angle = 10)
+
+```
+
+
+## Analyzing the Data
+
+This graph compares player production and efficiency. The "True Shooting %" metric is an advanced basketball statistic that evaluates a player's shooting efficiency by taking free throws, 2 point shots, and 3 point shots into account. It is widely considered the best way to measure a player's efficiency. To represent the scoring production of the players, points per game is used. The players in the top right quadrant are the most elite scorers in the NBA, with both high PPG and TS%. This graph also shows us that 2x MVP center Nikola Jokic is the most efficient player in the top 25 PPG scorers. It is still difficult to name one player as the best scorer because while one team may favor slightly higher production, other teams may favor the player with less production and higher efficiency.
+
+
+## Does Position Matter?
+``` {r}
+nbaPositionData <- nba23Data %>%
+  group_by(POS) %>%
+  summarize(
+    mean_PPG = mean(`PPG`),
+    mean_TS = mean(`TS%`),
+    sd_PPG = sd(`PPG`),
+    sd_TS = sd(`TS%`),
+    max_PPG = max(`PPG`),
+    max_TS = max(`TS%`)
+  )
+nbaPositionData <- nbaPositionData %>%
+  kable(
+    booktabs = TRUE,
+    align = c("l", rep("c", 6))
+  ) %>%
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "condensed"),
+    font_size = 12
+  )
+nbaPositionData
+```
+## Analysis
+Based off the summary statistics of the top 25 players by points per game, we can conclude that position does not matter when it comes to scoring the ball. When looking at the average points per game of each position, they are all within 2.5 points of each other. What can be noted is that bigger positions, like Power Forward and Center, have significantly higher average True Shooting Percentage. However, this is misleading without context as Power Forwards and Centers take the majority of their shots within 10 feet of the rim. While true shooting percentage does take location of shots into account, it isn't perfect. True shooting percentages doesn't take into account the amount of shots taken from beyond the three point line and within the paint, only the Field Goal Percentage from that spot. There is some variability in the max points per game of each position, however there was more variability with those higher averages. For example, the center position had the highest with 33.1 points per game, but a standard deviation of 6.Based off these observations it is safe to conclude that position does not play a role in scoring.
+
+\newpage
+
+# Code Appendix
+
+```{r codeAppedix}
+#| ref.label = knitr::all_labels(),
+#| echo = TRUE,
+#| eval = FALSE
+```
