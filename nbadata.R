@@ -21,3 +21,4 @@ nbaTopScorersTotals <- read_html(
 
 nbaTopScorersTotals23 <- nbaTopScorersTotals[[1]]
 View(nbaTopScorersTotals23)
+
