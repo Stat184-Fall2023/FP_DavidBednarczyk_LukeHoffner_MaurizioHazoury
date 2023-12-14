@@ -156,9 +156,9 @@ nba23Data$`TS%` <- round(nba23Data$`TS%`, 2)
 subsetNba23Data <- nba23Data[nba23Data$PPG * nba23Data$`TS%` > 1900, ]
 Jokic <- nba23Data[nba23Data$`TS%` > 70, ]
 
-firstHalfData <- nba23Data[, 1:17]
-secondHalfData <- nba23Data[, c(1:3, 18:28)]
-firstHalfData <- firstHalfData[, -c(4, 13:17)]
+firstHalfData <- nba23Data[, 1:18]
+secondHalfData <- nba23Data[, c(1:3, 19:28)]
+firstHalfData <- firstHalfData[, -c(4, 13:15)]
 
 firstHalfDataTable <- firstHalfData %>%
   kable(
