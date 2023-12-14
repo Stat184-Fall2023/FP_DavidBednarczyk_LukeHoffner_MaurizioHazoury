@@ -1,10 +1,15 @@
 ---
-title: "Stat184 Final Project"
+title: "Stat184 FP"
 author: "David Bednarczyk"
 date: "2023-12-02"
 output: pdf_document
 ---
 
+<<<<<<< HEAD
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(dplyr)
+library(tidyverse)
+=======
 ## Introduction
 
 Who is the best scorer in the current NBA? Is it the person who scores the most points, or is it the most efficient scorer, or a combination of both? As a group, we wanted to determine what player is the best scorer in the NBA, so the easiest way to do this, was through analyzing data. Our group used data from 2022-23 NBA season, as the current season in incomplete at the time of creating this project. Our plan was to find data that included both scoring averages, and scoring totals of the season. We plan on graphing different aspects of the data using stats like points per game, true shooting percentage, scoring totals and more. After graphing the data we plan on being able to make a good estimation on the best scorer in the league based off our criteria.
@@ -13,15 +18,43 @@ Who is the best scorer in the current NBA? Is it the person who scores the most 
 
 For this project, we used data tables from two websites: ESPN and BasketballReference. We were able to successfully scrape both websites to obtain the data tables we needed, however the data wasn't tidy. There were several things wrong with the data, like player and team being written in once column, accents on letters in one table, but not in the other, unclear column names, and more. After tidying each data table, we combined them into our final table that we will be using to graph the players. Below is the final version of our data table.
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-library(dplyr)
-library(tidyverse)
+```{r PPG vs TS%}
+nba23Data %>% 
+  ggplot(aes(x = `TS%`,
+             y= PPG,
+             color = POS)) +
+  geom_point()+
+  labs(x = "True Shooting %",
+       y = "Points Per Game",
+       color = "Position",
+       title = "NBA Scoring Production vs Efficiency")+
+  theme_bw()+
+  geom_text(data = subset_nba23Data, aes(label = Player), vjust = 1.25, size = 2.75, angle = 10)+
+   geom_text(data = Jokic, aes(label = Player), vjust = -1, hjust = .8, size = 2.75, angle = 10)
+
+```
+
+This graph compares player production and efficiency. The "True Shooting %" metric is an advanced basketball statistic that evaluates a player's shooting efficiency by taking free throws, 2 point shots, and 3 point shots into account. It is widely considered the best way to measure a player's efficiency. To represent the scoring production of the players, points per game is used. This graph shows us that 2x MVP center Nikola Jokic is the most efficient player in the top 25
+
+```{r Points vs Minutes Played}
+nba23Data %>% ggplot(aes(x = PTS,
+                         y = MP,
+                         color = POS))+
+  geom_point()+
+  labs(x = "Total Points",
+       y = "Total Minutes Played",
+       color = "Position",
+      title = "Points vs Minutes Played for the NBA's top 25 PPG Scorers")+
+  theme_bw()
+```
+
+```library(tidyverse)
+>>>>>>> 282e4dcc0dfb6705c00b5ae424dce0aa863bd94f
 library(rvest)
 library(writexl)
 library(data.table)
 library(stringi)
 library(kableExtra)
-
 
 #Creating Totals table
 
@@ -133,29 +166,29 @@ colnames(nba23Data)[11] <- "3PA"
 colnames(nba23Data)[12] <- "3P%"
 colnames(nba23Data)[14] <- "FTA"
 colnames(nba23Data)[15] <- "FT%"
-colnames(nba23Data)[17] <- "Tot FGM"
-colnames(nba23Data)[18] <- "Tot FGA"
-colnames(nba23Data)[19] <- "Tot 3PM"
-colnames(nba23Data)[20] <- "Tot 3PA"
-colnames(nba23Data)[21] <- "Tot 2PM"
-colnames(nba23Data)[22] <- "Tot 2PA"
+colnames(nba23Data)[17] <- "Total FGM"
+colnames(nba23Data)[18] <- "Total FGA"
+colnames(nba23Data)[19] <- "Total 3PM"
+colnames(nba23Data)[20] <- "Total 3PA"
+colnames(nba23Data)[21] <- "Total 2PM"
+colnames(nba23Data)[22] <- "Total 2PA"
 colnames(nba23Data)[23] <- "2P%"
-colnames(nba23Data)[25] <- "Tot FT"
-colnames(nba23Data)[26] <- "Tot FTA"
+colnames(nba23Data)[25] <- "Total FT"
+colnames(nba23Data)[26] <- "Total FTA"
 colnames(nba23Data)[27] <- "PTS"
 
 #Turning Columns 4-27 into numeric values and adding True Shooting %
 nba23Data[, 4:27] <- lapply(nba23Data[, 4:27], as.numeric)
-nba23Data$`TS%` <- (nba23Data$PTS / (2 * (nba23Data$`Tot FGA` + 0.44 * nba23Data$`Tot FTA`))) * 100
+nba23Data$`TS%` <- (nba23Data$PTS / (2 * (nba23Data$`Total FGA` + 0.44 * nba23Data$`Total FTA`))) * 100
 nba23Data$`TS%` <- round(nba23Data$`TS%`, 2)
 
 #Subsetting the data for naming purposes on the scatterplot
-subset_nba23Data <- nba23Data[nba23Data$PPG * nba23Data$`TS%` > 1900, ]
+subsetNba23Data <- nba23Data[nba23Data$PPG * nba23Data$`TS%` > 1900, ]
 Jokic <- nba23Data[nba23Data$`TS%` > 70, ]
 
-firstHalfData <- nba23Data[, 1:18]
-secondHalfData <- nba23Data[, c(1:3, 19:27)]
-firstHalfData <- firstHalfData[, -c(4, 13:18)]
+firstHalfData <- nba23Data[, 1:15]
+secondHalfData <- nba23Data[, c(1:3, 16:28)]
+firstHalfData <- firstHalfData[, -c(4, 13:15)]
 
 firstHalfDataTable <- firstHalfData %>%
   kable(
@@ -165,7 +198,7 @@ firstHalfDataTable <- firstHalfData %>%
   ) %>%
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "condensed"),
-    font_size = 8
+    font_size = 6
   )
 
 secondHalfDataTable <- secondHalfData %>%
@@ -175,14 +208,22 @@ secondHalfDataTable <- secondHalfData %>%
   ) %>%
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "condensed"),
-    font_size = 8
+    font_size = 6
   )
-
 firstHalfDataTable
 secondHalfDataTable
+<<<<<<< HEAD
 ```
 
-```{r PPG vs TS}
+## Introduction
+
+Who is the best scorer in the current NBA? Is it the person who scores the most points, or is it the most efficient scorer, or a combination of both? As a group, we wanted to determine what player is the best scorer in the NBA, so the easiest way to do this, was through analyzing data. Our group used data from 2022-23 NBA season, as the current season in incomplete at the time of creating this project. Our plan was to find data that included both scoring averages, and scoring totals of the season. We plan on graphing different aspects of the data using stats like points per game, true shooting percentage, scoring totals and more. After graphing the data we plan on being able to make a good estimation on the best scorer in the league based off our criteria.
+
+## Our Data
+
+For this project, we used data tables from two websites: ESPN and BasketballReference. We were able to successfully scrape both websites to obtain the data tables we needed, however the data wasn't tidy. There were several things wrong with the data, like player and team being written in once column, accents on letters in one table, but not in the other, unclear column names, and more. After tidying each data table, we combined them into our final table that we will be using to graph the players. Below is the final version of our data table.
+
+```{r PPG vs TS%}
 nba23Data %>% 
   ggplot(aes(x = `TS%`,
              y= PPG,
@@ -198,7 +239,7 @@ nba23Data %>%
 
 ```
 
-This graph compares player production and efficiency. The "True Shooting %" metric is an advanced basketball statistic that evaluates a player's shooting efficiency by taking free throws, 2 point shots, and 3 point shots into account. It is widely considered the best way to measure a player's efficiency. To represent the scoring production of the players, points per game is used. This graph shows us that 2x MVP center Nikola Jokic is the most efficient player in the top 25
+This graph compares player production and efficiency. The "True Shooting %" metric is an advanced basketball statistic that evaluates a player's shooting efficiency by taking free throws, 2 point shots, and 3 point shots into account. It is widely considered the best way to measure a player's efficiency. To represent the scoring production of the players, points per game is used. The players in the top right quadrant are the most elite scorers in the NBA, with both high PPG and TS%. This graph also shows us that 2x MVP center Nikola Jokic is the most efficient player in the top 25 PPG scorers. It is still difficult to name one player as the best scorer because while one team may favor slightly higher production, other teams may favor the player with less production and higher efficiency.
 
 ```{r Points vs Minutes Played}
 nba23Data %>% ggplot(aes(x = PTS,
@@ -210,9 +251,11 @@ nba23Data %>% ggplot(aes(x = PTS,
        color = "Position",
       title = "Points vs Minutes Played for the NBA's top 25 PPG Scorers")+
   theme_bw()
+=======
+firstHalfDataTable
+secondHalfDataTable
+>>>>>>> 282e4dcc0dfb6705c00b5ae424dce0aa863bd94f
 ```
-
-
 
 ## Analyzing the Data
 
